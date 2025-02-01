@@ -2,24 +2,32 @@ import React from "react";
 
 const ProjectTable = ({ projects }) => {
     return (
-        <table className="styled-table">
-            <thead>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Percentage Funded</th>
-                    <th>Amount Pledged</th>
-                </tr>
-            </thead>
-            <tbody>
-                {projects.map((project, index) => (
-                    <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{project["percentage.funded"]}%</td>
-                        <td>${project["amt.pledged"]}</td>
+        <fieldset>
+        <legend>List of Kickstarter Projects</legend>
+            <table className="styled-table" aria-live="polite">
+
+                <thead>
+                    <tr>
+                        <th scope="col">S.No.</th>
+                        <th scope="col">Percentage Funded</th>
+                        <th scope="col">Amount Pledged</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {projects.map((project, index) => (
+                        <tr key={index}>
+                            <td scope="row">{index + 1}</td>
+                            <td aria-label={`Funded ${project["percentage.funded"]}%`}>
+                                {project["percentage.funded"]}%
+                            </td>
+                            <td aria-label={`Pledged $${project["amt.pledged"]}`}>
+                                ${project["amt.pledged"]}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </fieldset>
     );
 };
 

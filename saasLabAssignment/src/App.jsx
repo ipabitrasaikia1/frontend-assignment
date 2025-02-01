@@ -41,9 +41,10 @@ const App = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = projects.slice(indexOfFirstItem, indexOfLastItem);
 
-    return ( error ? alert(error) : 
+    return (
         <div className="container">
             <h1>Kickstarter Projects</h1>
+            {error && <p role="alert" className="error-text">{error}</p>}
             {loading ? <p>Loading...</p> : <ProjectTable projects={currentItems} />}
             <Pagination
                 totalItems={projects.length}
@@ -53,7 +54,7 @@ const App = () => {
                 maxPagesToShow={5}
             />
         </div>
-    );
+    ); 
 };
 
 export default App;

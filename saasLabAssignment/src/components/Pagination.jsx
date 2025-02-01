@@ -1,5 +1,6 @@
 const Pagination = ({ totalItems, itemsPerPage, currentPage, setCurrentPage, maxPagesToShow = 5 }) => {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
+
     const getPageNumbers = () => {
         let pages = [];
         let startPage = Math.max(1, currentPage - 2);
@@ -23,25 +24,45 @@ const Pagination = ({ totalItems, itemsPerPage, currentPage, setCurrentPage, max
     };
 
     return (
-        <div className="pagination">
-            <button aria-label="Previous Page" className="pagination-btn" disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>
+        <nav className="pagination" aria-label="Pagination">
+            <button 
+                aria-label="Previous Page" 
+                className="pagination-btn" 
+                disabled={currentPage === 1} 
+                onClick={() => setCurrentPage(currentPage - 1)}
+            >
                 Previous
             </button>
-            {getPageNumbers().map((page, index) => (
-                <button
-                    aria-label="current Page"
-                    key={index}
-                    className={`pagination-btn ${page === currentPage ? "active" : ""}`}
-                    onClick={() => typeof page === "number" && setCurrentPage(page)}
-                    disabled={page === "..."}
-                >
-                    {page}
-                </button>
-            ))}
-            <button aria-label="Next Page" className="pagination-btn" disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)}>
+
+            <div aria-live="polite">
+                {getPageNumbers().map((page, index) => (
+                    typeof page === "number" ? (
+                        <button
+                            key={index}
+                            className={`pagination-btn ${page === currentPage ? "active" : ""}`}
+                            onClick={() => setCurrentPage(page)}
+                            aria-label={`Go to page ${page}`}
+                            aria-current={page === currentPage ? "page" : undefined}
+                        >
+                            {page}
+                        </button>
+                    ) : (
+                        <button key={index} className="pagination-dots" aria-hidden="true" tabIndex={0}>
+                            {page}
+                        </button>
+                    )
+                ))}
+            </div>
+
+            <button 
+                aria-label="Next Page" 
+                className="pagination-btn" 
+                disabled={currentPage === totalPages} 
+                onClick={() => setCurrentPage(currentPage + 1)}
+            >
                 Next
             </button>
-        </div>
+        </nav>
     );
 };
 
