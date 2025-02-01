@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import ProjectTable from "./components/ProjectTable";
 import Pagination from "./components/Pagination";
+import InfoModal from "./components/InfoModal";
+import InfoCard from "./components/InfoCard";
 import "./styles.css";
 
 const App = () => {
@@ -41,11 +43,20 @@ const App = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = projects.slice(indexOfFirstItem, indexOfLastItem);
 
+    // Modal 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedProject, setSelectedProject] = useState(null);
+
+    const openModal = (project) => {
+        setSelectedProject(project);
+        setIsModalOpen(true);
+    };
+
     return (
         <div className="container">
             <h1>Kickstarter Projects</h1>
             {error && <p role="alert" className="error-text">{error}</p>}
-            {loading ? <p>Loading...</p> : <ProjectTable projects={currentItems} />}
+            {loading ? <p>Loading...</p> : <ProjectTable onClick={(currentProject) => openModal(currentProject)} projects={currentItems} />}
             <Pagination
                 totalItems={projects.length}
                 itemsPerPage={itemsPerPage}
@@ -53,6 +64,18 @@ const App = () => {
                 setCurrentPage={setPage}
                 maxPagesToShow={5}
             />
+                    <div>
+
+            {isModalOpen && (
+                <InfoModal title="Project Details" onClose={() => setIsModalOpen(false)}>
+                    <InfoCard 
+                        title={selectedProject?.title}
+                        details={selectedProject}
+                    />
+                </InfoModal>
+            )}
+        </div>
+
         </div>
     ); 
 };

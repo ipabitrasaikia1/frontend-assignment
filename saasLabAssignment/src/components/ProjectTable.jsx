@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProjectTable = ({ projects }) => {
+const ProjectTable = ({ onClick ,projects }) => {
     return (
         <fieldset>
         <legend>List of Kickstarter Projects</legend>
@@ -15,8 +15,8 @@ const ProjectTable = ({ projects }) => {
                 </thead>
                 <tbody>
                     {projects.map((project, index) => (
-                        <tr key={index}>
-                            <td scope="row">{index + 1}</td>
+                        <tr key={index} onClick={() => onClick(project)}>
+                            <td scope="row">{project['s.no']}</td>
                             <td aria-label={`Funded ${project["percentage.funded"]}%`}>
                                 {project["percentage.funded"]}%
                             </td>

@@ -49,6 +49,7 @@ h1 {
 
 .styled-table tr:hover {
     background-color: #ddd;
+    cursor: pointer;
 }
 
 .pagination {
